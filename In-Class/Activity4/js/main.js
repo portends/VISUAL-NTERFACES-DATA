@@ -102,10 +102,24 @@ let years = [];
 			.enter()
 		.append("circle")
 			.attr("opacity", .8)
-			.attr("r", 100)
-			.attr("cx", 200)
-			.attr("cy", 100 )
-			.attr("fill", "black" )
+			.attr("r", (d) =>  d.cost/165 * 100 + 5)
+			.attr("cx", (d) => d.daysFromYrStart/365 * (timelineX2-timelineX1) + timelineX1)
+			.attr("cy", (d) => (2017 - d.year) * gapBetweenTimelines + startOfTimelinesY )
+			.attr("fill", (d) => {
+				if (d.category == "tropical-cyclone") {
+					return "#081d58";
+				} else if (d.category == "drought-wildfire") {
+					return "#ffffd9";
+				} else if (d.category == "severe-storm") {
+					return "#c7e9b4";
+				} else if (d.category == "winter-storm-freeze") {
+					return "#081d58";
+				} else if (d.category == "flooding") {
+					return "#41b6c4";
+				} else {
+					return "#000000";
+				} 
+			} )
 			.attr("stroke", "gray" )
 			.attr("stroke-width", 2 )
 
