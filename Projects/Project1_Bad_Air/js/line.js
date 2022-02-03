@@ -29,13 +29,19 @@ class Line {
     vis.xValue = d => d.year; 
     vis.yValue = d => d.median;
 
+    let e1 = d3.extent(vis.data, vis.yValue).concat(d3.extent(vis.data, d=>d.aqi90)).concat(d3.extent(vis.data, d=>d.max));
+
+    console.log(e1)
+
+    console.log(d3.extent(e1))
+
     //setup scales
     vis.xScale = d3.scaleLinear()
         .domain(d3.extent(vis.data, vis.xValue)) //d3.min(vis.data, d => d.year), d3.max(vis.data, d => d.year) );
         .range([0, vis.width]);
 
     vis.yScale = d3.scaleLinear()
-        .domain( d3.extent(vis.data, vis.yValue) )
+        .domain( d3.extent(e1) )
         .range([vis.height, 0])
         .nice(); //this just makes the y axes behave nicely by rounding up
 
@@ -66,6 +72,7 @@ class Line {
 
     //TO DO: create an area path
 
+
     //TO DO- create a line path 
     
     // first, initialize line generator helper function : vis.line
@@ -73,7 +80,21 @@ class Line {
     // y should use yScale
     vis.line = d3.line()
         .x((d) => vis.xScale(vis.xValue(d)))
+        // .y((d) => vis.yScale(vis.yValue(d)))
+        // .y((d) => vis.yScale(d.aqi90))
+        .y((d) => vis.yScale(+d.max));
+
+    vis.line2 = d3.line()
+        .x((d) => vis.xScale(vis.xValue(d)))
         .y((d) => vis.yScale(vis.yValue(d)))
+        // .y((d) => vis.yScale(d.aqi90))
+        // .y((d) => vis.yScale(+d.max));
+
+    vis.line3 = d3.line()
+        .x((d) => vis.xScale(vis.xValue(d)))
+        // .y((d) => vis.yScale(vis.yValue(d)))
+        .y((d) => vis.yScale(d.aqi90))
+        // .y((d) => vis.yScale(+d.max));
 
 
     // Append a path to your vis.chart
@@ -88,6 +109,20 @@ class Line {
         .attr('stroke-width', 2)
         .attr('fill', 'none')
         .attr('d', vis.line);
+
+    vis.chart.append('path')
+        .data([vis.data])
+        .attr('stroke', '#069399')
+        .attr('stroke-width', 2)
+        .attr('fill', 'none')
+        .attr('d', vis.line2);
+
+    vis.chart.append('path')
+        .data([vis.data])
+        .attr('stroke', '#5633a0')
+        .attr('stroke-width', 2)
+        .attr('fill', 'none')
+        .attr('d', vis.line3);
 
 
   }
