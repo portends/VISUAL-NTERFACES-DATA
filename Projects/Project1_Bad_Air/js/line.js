@@ -3,6 +3,7 @@ class Line {
   constructor(_config, _data) {
     this.config = {
       parentElement: _config.parentElement,
+      yValues: _config.yValues,
       containerWidth: _config.containerWidth || 500,
       containerHeight: _config.containerHeight || 140,
       margin: { top: 10, bottom: 30, right: 50, left: 50 }
@@ -27,13 +28,11 @@ class Line {
         //if you reuse a function frequetly, you can define it as a parameter
         //also, maybe someday you will want the user to be able to re-set it.
     vis.xValue = d => d.year; 
-    vis.yValue = d => d.median;
+    vis.yValue = d => d.max;
 
-    let e1 = d3.extent(vis.data, vis.yValue).concat(d3.extent(vis.data, d=>d.aqi90)).concat(d3.extent(vis.data, d=>d.max));
-
-    console.log(e1)
-
-    console.log(d3.extent(e1))
+    let e1 = [];
+    // d3.extent(vis.data, vis.yValue).concat(d3.extent(vis.data, d=>d.aqi90)).concat(d3.extent(vis.data, d=>d.max));
+    vis.config.yValues.forEach(element => { e1 = e1.concat(d3.extent(vis.data, (d) => d[element]))})
 
     //setup scales
     vis.xScale = d3.scaleLinear()
@@ -70,68 +69,24 @@ class Line {
         .attr('class', 'axis y-axis')
         .call(vis.yAxis); 
 
-    //TO DO: create an area path
-
-
-    //TO DO- create a line path 
-    
-    // first, initialize line generator helper function : vis.line
-    // x should use xScale
-    // y should use yScale
-    vis.line = d3.line()
-        .x((d) => vis.xScale(vis.xValue(d)))
-        // .y((d) => vis.yScale(vis.yValue(d)))
-        // .y((d) => vis.yScale(d.aqi90))
-        .y((d) => vis.yScale(+d.max));
-
-    vis.line2 = d3.line()
-        .x((d) => vis.xScale(vis.xValue(d)))
-        .y((d) => vis.yScale(vis.yValue(d)))
-        // .y((d) => vis.yScale(d.aqi90))
-        // .y((d) => vis.yScale(+d.max));
-
-    vis.line3 = d3.line()
-        .x((d) => vis.xScale(vis.xValue(d)))
-        // .y((d) => vis.yScale(vis.yValue(d)))
-        .y((d) => vis.yScale(d.aqi90))
-        // .y((d) => vis.yScale(+d.max));
-
-
-    // Append a path to your vis.chart
-    // NOTE:   .data([vis.data])  needs to be structured like this
-    // stroke should be '#8693a0'
-    // fill should be 'none'
-    // stroke width should be 2 
-    // using the helper function: .attr('d', vis.line);
-    vis.chart.append('path')
-        .data([vis.data])
-        .attr('stroke', '#8693a0')
-        .attr('stroke-width', 2)
-        .attr('fill', 'none')
-        .attr('d', vis.line);
-
-    vis.chart.append('path')
-        .data([vis.data])
-        .attr('stroke', '#069399')
-        .attr('stroke-width', 2)
-        .attr('fill', 'none')
-        .attr('d', vis.line2);
-
-    vis.chart.append('path')
-        .data([vis.data])
-        .attr('stroke', '#5633a0')
-        .attr('stroke-width', 2)
-        .attr('fill', 'none')
-        .attr('d', vis.line3);
-
-
+        vis.updateVis();      
   }
 
 
   //leave this empty for now
  updateVis() { 
-   
-
+    let vis = this;
+     vis.config.yValues.forEach(element => {
+        vis.chart.append('path')
+            .data([vis.data])
+            .attr('stroke', '#8693a0')
+            .attr('stroke-width', 2)
+            .attr('fill', 'none')
+            .attr('d', d3.line()
+                .x((d) => vis.xScale(vis.xValue(d)))
+                .y((d) => vis.yScale(d[element])
+        ));
+    });
  }
 
 
