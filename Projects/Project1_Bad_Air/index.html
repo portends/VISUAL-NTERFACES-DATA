@@ -4,29 +4,79 @@
     <title>Project 1 Bad Air!</title>
     <meta charset="UTF-8">
     <link rel="icon" href="data:;base64,iVBORwOKGO=" />
-    <!-- <link rel="stylesheet" href="css/style.css"> -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body> 
-    <h1>Project 1 Bad Air!</h1>
-    <h3>Andy Greer</h3>  
-    
-
-    <!-- Add HTML content, SVG drawing area, ... -->
-    <svg id="line"></svg>
-    <svg id="line2"></svg>
-    <svg id="line3"></svg>
+    <h3>Project 1 Bad Air!</h3>
+    <h5>Andy Greer</h5>  
+    <div class="container">
+        <div class="container">
+            <select id="stateButton1"></select>
+            <select id="countyButton1"></select>
+        </div>
+        <div class="container">
+            <select id="stateButton2"></select>
+            <select id="countyButton2"></select>
+        </div>
+    </div>
+    <div>
+        <div><p id="value-time"></p></div>
+        <div><div id="slider-time"></div></div>
+    </div>
+    <!-- <ul class="legend"> -->
+    <div class="container">
+        <ul class="legend">
+            <li class="legend-btn" category="max"><span class="legend-symbol"></span> Max</li>
+            <li class="legend-btn" category="aqi90"><span class="legend-symbol"></span> 90% AQI</li>
+            <li class="legend-btn" category="median"><span class="legend-symbol"></span> Median</li>
+        </ul>
+        <ul class="legend">
+            <li class="legend-btn" category="co"><span class="legend-symbol"></span> C02</li>
+            <li class="legend-btn" category="no2"><span class="legend-symbol"></span> N02</li>
+            <li class="legend-btn" category="ozone"><span class="legend-symbol"></span>  Ozone</li>
+            <li class="legend-btn" category="so2"><span class="legend-symbol"></span> SO2</li>
+            <li class="legend-btn" category="pm2-5"><span class="legend-symbol"></span> PM2.5</li>
+            <li class="legend-btn" category="pm10"><span class="legend-symbol"></span> PM10</li>
+        </ul>
+    </div>
+        
+    </ul>
+    <div class="container">
+        <div class="container2">
+            <!-- Add HTML content, SVG drawing area, ... -->
+            <svg id="line1"></svg>
+            <svg id="line4"></svg>
+            <svg id="line3"></svg>
+            <svg id="line6"></svg>
+            <svg id="bar1" class="AQI_bar"></svg>
+            
+            <!-- <svg id="map"></svg> -->
+        </div>
+        <div class="container2">
+            <svg id="line2"></svg>
+            <svg id="line5"></svg>
+            <svg id="bar2"></svg>
+            <svg id="bar3" class="AQI_bar"></svg>
+            <svg id="bar4"></svg>
+        </div>
+    </div>
 
     <p>
         US Environmental Protection Agency. Air Quality System Data Mart 
         [internet database] available via https://www.epa.gov/outdoor-air-quality-data. 
         Accessed February 01, 2021.
     </p>
+
+    <div id="tooltip"></div>
  
     <!-- D3 bundle -->
     <script src="js/d3.v6.min.js"></script>
+    <script src="js/d3-simple-slider.min.js"></script>
+    <script src="js/d3-interpolate-path.min.js"></script>
 
     <!-- Our JS code - INCLUDING the new files-->
     <script src="js/main.js"></script>
+    <script src="js/bar.js"></script>
     <script src="js/line.js"></script>  
 
 

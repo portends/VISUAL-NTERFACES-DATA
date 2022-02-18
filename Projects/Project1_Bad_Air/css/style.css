@@ -1,0 +1,110 @@
+html, body {height:100%;}
+
+html {
+    /* background-color: #001C51; */
+    background-image: linear-gradient(#001C51, #176AC7);
+    color: rgb(223, 223, 223)
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    /* grid-template-rows: repeat(3, 200px); */
+}
+
+.container2 {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: repeat(3, 200px);
+}
+svg{
+    color:rgb(65, 65, 65);
+}
+
+.AQI_bar{
+    grid-column: 1 / 2;
+    grid-row: 3;
+}
+
+select {
+    width: 300px;
+}
+
+.slider text {
+    fill: white;
+}
+
+#tooltip {
+    position: absolute;
+    display: none;
+    background: #fff;
+    box-shadow: 3px 3px 3px 0px rgb(92 92 92 / 0.5);
+    border: 1px solid #ddd;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 8px;
+    min-width: 160px;
+    color: #333;
+  }
+  .tooltip-title {
+    color: #000;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  #tooltip ul {
+    margin: 5px 0 0 0;
+    padding-left: 20px;
+  }
+
+
+  .legend {
+    margin: 20px 0;
+    list-style: none;
+    padding: 0;
+  }
+  .legend-btn {
+    display: inline-block;
+    margin: 0 20px 0 0;
+    cursor: pointer;
+    transition: all ease-in-out 200ms;
+  }
+  .legend-btn:hover.legend-btn.inactive:hover  {
+    /*opacity: 1.0;*/
+  }
+  .legend-btn.inactive {
+    opacity: 0.3;
+  }
+  .legend-symbol {
+    width: 12px;
+    height: 12px;
+    margin-right: 3px;
+    display: inline-block;
+  }
+  .legend-btn[category="max"] .legend-symbol {
+    background: #00d8c3;
+  }
+  .legend-btn[category="aqi90"] .legend-symbol {
+    background: #009af6;
+  }
+  .legend-btn[category="median"] .legend-symbol {
+    background: #0032d8;
+  }
+  .legend-btn[category="co"] .legend-symbol {
+    background: #006c9e;
+  }
+  .legend-btn[category="no2"] .legend-symbol {
+    background: #444e86;
+  }
+  .legend-btn[category="ozone"] .legend-symbol {
+    background: #955196;
+  }
+  .legend-btn[category="so2"] .legend-symbol {
+    background: #dd5182;
+  }
+  .legend-btn[category="pm2-5"] .legend-symbol {
+    background: #ff6e54;
+  }
+  .legend-btn[category="pm10"] .legend-symbol {
+    background: #ffa600;
+  }
+
