@@ -14,17 +14,71 @@ html {
 
 .container2 {
     display: grid;
-    grid-template-columns: 50% 50%;
-    grid-template-rows: repeat(3, 200px);
+    grid-template-columns: 25% 25% 25% 25%;
+    grid-template-rows: repeat(4, 170px);
 }
+
+.container3 {
+    display: grid;
+    grid-template-columns: 15% 25% 30%;
+}
+
 svg{
     color:rgb(65, 65, 65);
 }
 
-.AQI_bar{
+/* .AQI_bar{
     grid-column: 1 / 2;
     grid-row: 3;
+} */
+
+.map{
+    position: absolute;
+    top: 100px;
+    left: 270px;
 }
+
+#line1{
+    grid-column: 1;
+    grid-row: 1;
+}
+#line2{
+    grid-column: 1;
+    grid-row: 2;
+}
+#line3{
+    grid-column: 1;
+    grid-row: 3;
+}
+#line4{
+    grid-column: 4;
+    grid-row: 1;
+}
+#line5{
+    grid-column: 4;
+    grid-row: 2;
+}
+#line6{
+    grid-column: 4;
+    grid-row: 3;
+}
+#bar1{
+    grid-column: 1;
+    grid-row: 4;
+}
+#bar2{
+    grid-column: 2;
+    grid-row: 4;
+}
+#bar3{
+    grid-column: 3;
+    grid-row: 4;
+}
+#bar4{
+    grid-column: 4;
+    grid-row: 4;
+}
+
 
 select {
     width: 300px;
@@ -34,7 +88,7 @@ select {
     fill: white;
 }
 
-#tooltip {
+#tooltip, #tooltip2 {
     position: absolute;
     display: none;
     background: #fff;
@@ -46,15 +100,16 @@ select {
     min-width: 160px;
     color: #333;
   }
-  .tooltip-title {
-    color: #000;
-    font-size: 14px;
-    font-weight: 600;
-  }
-  #tooltip ul {
-    margin: 5px 0 0 0;
-    padding-left: 20px;
-  }
+.tooltip-title {
+color: #000;
+font-size: 14px;
+font-weight: 600;
+}
+
+#tooltip ul, #tooltip2 ul{
+margin: 5px 0 0 0;
+padding-left: 20px;
+}
 
 
   .legend {
@@ -87,7 +142,7 @@ select {
     background: #009af6;
   }
   .legend-btn[category="median"] .legend-symbol {
-    background: #0032d8;
+    background: #043fff;
   }
   .legend-btn[category="co"] .legend-symbol {
     background: #006c9e;
@@ -108,3 +163,79 @@ select {
     background: #ffa600;
   }
 
+  .background {
+    fill: none;
+    pointer-events: all;
+}
+
+#states {
+fill: #aaa;
+}
+
+#states .active {
+display:none;
+}
+
+#state-borders {
+fill: none;
+stroke: #fff;
+stroke-width: 1.5px;
+stroke-linejoin: round;
+stroke-linecap: round;
+pointer-events: none;
+}
+
+.county-boundary {
+fill: gray;
+stroke: #fff;
+stroke-width: .5px;
+}
+
+.county-boundary:hover, .state:hover {
+fill: orange;
+}
+
+/* Dropdown Button */
+.dropbtn {
+    background-color: #3498DB;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  /* Dropdown button on hover & focus */
+  .dropbtn:hover, .dropbtn:focus {
+    background-color: #2980B9;
+  }
+  
+  /* The container <div> - needed to position the dropdown content */
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  /* Dropdown Content (Hidden by Default) */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #094fd3;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  /* Links inside the dropdown */
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  /* Change color of dropdown links on hover */
+  .dropdown-content a:hover {background-color: #ddd}
+  
+  /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+  .show {display:block;}

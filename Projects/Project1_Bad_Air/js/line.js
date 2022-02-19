@@ -1,17 +1,18 @@
 class Line {
 
-  constructor(_config, _data, _colorScale) {
+  constructor(_config, _data, _colorScale, _pairedLine) {
     this.config = {
       parentElement: _config.parentElement,
       title: _config.title,
       yValues: _config.yValues,
       containerWidth: _config.containerWidth || 350,
-      containerHeight: _config.containerHeight || 175,
+      containerHeight: _config.containerHeight || 165,
       margin: { top: 30, bottom: 30, right: 50, left: 50 }
     }
 
     this.data = _data;
-    this.colorScale = _colorScale
+    this.colorScale = _colorScale;
+    this.pair = _pairedLine
 
     // Call a class function
     this.initVis();
@@ -112,39 +113,55 @@ class Line {
     vis.bisectYear = d3.bisector(vis.xValue).left;
 
     vis.trackingArea.on('mousemove', function(event) {
-      // See code snippets below
       let xPos = d3.pointer(event, this)[0]; // First array element is x, second is y
-      let year = vis.xScale.invert(xPos);
-
-      // // Find nearest data point
-      let index = vis.bisectYear(vis.data, year, 1);
-      let a = vis.data[index - 1];
-      let b = vis.data[index];
-      let d = b && (year - a.year > b.year - year) ? b : a; 
-
-      vis.tooltip
-        .attr('x', vis.xScale(vis.xValue(d)))
-        .attr('width', "2")
-        .attr('y', 0)
-        .attr('height', vis.height)
-        .attr("fill", "#887D91")
-
-
-      // // Update tooltip
-      if (vis.config.yValues[0] == "max"){vis.chart1Tooltip(event, d)}
-      if (vis.config.yValues[0] == "co"){vis.chart2Tooltip(event, d)}
-      if (vis.config.yValues[0] == "no_data_days"){vis.chart3Tooltip(event, d)}
+      let x = vis.updateTooltip(event, xPos)
+      vis.pair.updateTooltip(event, xPos, "2", x)
     })
-    .on('mouseleave', () => {
+    vis.chart.on('mouseleave', () => {
       d3.select('#tooltip').style('display', 'none');
+      d3.select('#tooltip2').style('display', 'none');
       vis.tooltip.attr('height', 0)
+      vis.pair.tooltip.attr('height', 0)
     });
     vis.xAxisG.call(vis.xAxis);
     vis.yAxisG.call(vis.yAxis);
  }
 
-chart1Tooltip(event, d) { 
-  d3.select('#tooltip')
+updateTooltip(event, xPos, tipNum = "", x = "") {
+  let vis = this
+  // See code snippets below
+  
+  let year = vis.xScale.invert(xPos);
+
+  // // Find nearest data point
+  let index = vis.bisectYear(vis.data, year, 1);
+  let a = vis.data[index - 1];
+  let b = vis.data[index];
+  let d = b && (year - a.year > b.year - year) ? b : a; 
+
+  let xTip = x
+  if (x == ""){ xTip = vis.xScale(vis.xValue(d)) }
+
+
+  vis.tooltip
+    .attr('x', xTip)
+    .attr('width', "2")
+    .attr('y', 0)
+    .attr('height', vis.height)
+    .attr("fill", "#887D91")
+
+
+  // // Update tooltip
+  if (tipNum == "") {
+    if (vis.config.yValues[0] == "max"){vis.chart1Tooltip(event, d, tipNum)}
+    if (vis.config.yValues[0] == "co"){vis.chart2Tooltip(event, d)}
+    if (vis.config.yValues[0] == "no_data_days"){vis.chart3Tooltip(event, d)}
+  }
+  return vis.xScale(vis.xValue(d))
+}
+
+chart1Tooltip(event, d, tipNum = "") { 
+  d3.select(`#tooltip${tipNum}`)
   // show the event name, the event cost, the date.
     .style('display', 'block')
     .style('left', (event.pageX + 15) + 'px')   

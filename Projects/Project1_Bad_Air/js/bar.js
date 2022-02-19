@@ -3,12 +3,13 @@ class Bar {
     constructor(_config, _data, _colorScale) {
       this.config = {
         parentElement: _config.parentElement,
+        title: _config.title,
         y: _config.y,
         y_domain: _config.y_domain,
         x: _config.x,
         containerWidth: _config.containerWidth || 350,
-        containerHeight: _config.containerHeight || 175,
-        margin: { top: 10, bottom: 30, right: 50, left: 50 }
+        containerHeight: _config.containerHeight || 165,
+        margin: { top: 30, bottom: 30, right: 50, left: 50 }
       }
   
       this.data = _data;
@@ -61,12 +62,19 @@ class Bar {
       vis.xAxisG = vis.chart.append('g')
           .attr('class', 'axis x-axis')
           .attr('transform', `translate(0,${vis.height})`)
-          .call(vis.xAxis);
+          .call(vis.xAxis)
       
       // Append y-axis group
       vis.yAxisG = vis.chart.append('g')
           .attr('class', 'axis y-axis')
           .call(vis.yAxis); 
+
+      vis.title = vis.chart.append("text")
+          .attr("x", (vis.width / 2))             
+          .attr("y", 0 - (vis.config.margin.top / 2))
+          .attr("text-anchor", "middle")  
+          .style("font-size", "16px") 
+          .text(vis.config.title);
   
       vis.updateVis();           
     }
@@ -74,6 +82,10 @@ class Bar {
    updateVis() { 
         let vis = this;
         vis.chart.selectAll("rect").remove()
+        vis.chart.selectAll("text.nodata").remove()
+        vis.title.text(`No Data - ${vis.config.title}`)
+        if (vis.data){
+        vis.title.text(`${vis.data[0].county},${vis.data[0].state} - ${vis.config.title} ${vis.data[0].year}`)
 
         vis.bisectYear = d3.bisector(d => d[vis.config.x]).left;
 
@@ -118,7 +130,21 @@ class Bar {
             .attr('y', (d,i) => vis.yScale(d[vis.config.y][index]))
             .attr('height', (d,i) => vis.height - vis.yScale(d[vis.config.y][index]))
         })
-        vis.xAxisG.call(vis.xAxis);
+      }else{
+        vis.chart.append("text")
+          .attr("x", (vis.width / 2))             
+          .attr("y", (vis.height / 2))
+          .attr("text-anchor", "middle")  
+          .style("font-size", "16px") 
+          .attr("class", "nodata")
+          .text("No Data For this Year");
+      }
+        vis.xAxisG.call(vis.xAxis)
+        .selectAll("text")
+          .style("text-anchor", "end")
+          .attr("dx", "-.8em")
+          .attr("dy", ".15em")
+          .attr("transform", "rotate(-15)");;
         vis.yAxisG.call(vis.yAxis);
       // }
    }

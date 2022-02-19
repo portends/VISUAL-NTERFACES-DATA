@@ -6,60 +6,63 @@
     <link rel="icon" href="data:;base64,iVBORwOKGO=" />
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body> 
-    <h3>Project 1 Bad Air!</h3>
-    <h5>Andy Greer</h5>  
+<body oncontextmenu="return false;"> 
     <div class="container">
-        <div class="container">
-            <select id="stateButton1"></select>
-            <select id="countyButton1"></select>
+        <div class="container3">
+            <div class="dropdown">
+                <button onclick="myFunction()" class="dropbtn">Selections</button>
+                <div id="myDropdown" class="dropdown-content">
+                    <h5>County 1 (left click map)</h5><select id="stateButton1"></select>
+                    <select id="countyButton1"></select>
+                    <h5>County 2 (right click map)</h5><select id="stateButton2"></select>
+                    <select id="countyButton2"></select>
+
+                    <div>
+                        <div><div id="slider-time"></div></div>
+                    </div>
+                </div>
+            </div>
+            <h3>Project 1 Bad Air!</h3>
+            <h5>Andy Greer</h5>  
         </div>
+        
+        <!-- <ul class="legend"> -->
         <div class="container">
-            <select id="stateButton2"></select>
-            <select id="countyButton2"></select>
+            <ul class="legend">
+                <li class="legend-btn" category="max"><span class="legend-symbol"></span> Max</li>
+                <li class="legend-btn" category="aqi90"><span class="legend-symbol"></span> 90% AQI</li>
+                <li class="legend-btn" category="median"><span class="legend-symbol"></span> Median</li>
+            </ul>
+            <ul class="legend">
+                <li class="legend-btn" category="co"><span class="legend-symbol"></span> C02</li>
+                <li class="legend-btn" category="no2"><span class="legend-symbol"></span> N02</li>
+                <li class="legend-btn" category="ozone"><span class="legend-symbol"></span>  Ozone</li>
+                <li class="legend-btn" category="so2"><span class="legend-symbol"></span> SO2</li>
+                <li class="legend-btn" category="pm2-5"><span class="legend-symbol"></span> PM2.5</li>
+                <li class="legend-btn" category="pm10"><span class="legend-symbol"></span> PM10</li>
+            </ul>
         </div>
-    </div>
-    <div>
-        <div><p id="value-time"></p></div>
-        <div><div id="slider-time"></div></div>
-    </div>
-    <!-- <ul class="legend"> -->
-    <div class="container">
-        <ul class="legend">
-            <li class="legend-btn" category="max"><span class="legend-symbol"></span> Max</li>
-            <li class="legend-btn" category="aqi90"><span class="legend-symbol"></span> 90% AQI</li>
-            <li class="legend-btn" category="median"><span class="legend-symbol"></span> Median</li>
-        </ul>
-        <ul class="legend">
-            <li class="legend-btn" category="co"><span class="legend-symbol"></span> C02</li>
-            <li class="legend-btn" category="no2"><span class="legend-symbol"></span> N02</li>
-            <li class="legend-btn" category="ozone"><span class="legend-symbol"></span>  Ozone</li>
-            <li class="legend-btn" category="so2"><span class="legend-symbol"></span> SO2</li>
-            <li class="legend-btn" category="pm2-5"><span class="legend-symbol"></span> PM2.5</li>
-            <li class="legend-btn" category="pm10"><span class="legend-symbol"></span> PM10</li>
-        </ul>
     </div>
         
     </ul>
-    <div class="container">
-        <div class="container2">
-            <!-- Add HTML content, SVG drawing area, ... -->
-            <svg id="line1"></svg>
-            <svg id="line4"></svg>
-            <svg id="line3"></svg>
-            <svg id="line6"></svg>
-            <svg id="bar1" class="AQI_bar"></svg>
-            
-            <!-- <svg id="map"></svg> -->
+    <div class="container2">
+        <!-- Add HTML content, SVG drawing area, ... -->
+        <svg id="line1"></svg>
+        <svg id="line4"></svg>
+        <svg id="line3"></svg>
+        <svg id="line6"></svg>
+        <svg id="bar1" class="AQI_bar"></svg>
+        <div class="map">
+            <div id="map"></div>
+            <svg height="5" width="5" xmlns="http://www.w3.org/2000/svg" version="1.1"> <defs> <pattern id="lightstripe" patternUnits="userSpaceOnUse" width="5" height="5"> <image xlink:href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSc1JyBoZWlnaHQ9JzUnPgogIDxyZWN0IHdpZHRoPSc1JyBoZWlnaHQ9JzUnIGZpbGw9J3doaXRlJy8+CiAgPHBhdGggZD0nTTAgNUw1IDBaTTYgNEw0IDZaTS0xIDFMMSAtMVonIHN0cm9rZT0nIzg4OCcgc3Ryb2tlLXdpZHRoPScxJy8+Cjwvc3ZnPg==" x="0" y="0" width="5" height="5"> </image> </pattern> </defs></svg>
         </div>
-        <div class="container2">
-            <svg id="line2"></svg>
-            <svg id="line5"></svg>
-            <svg id="bar2"></svg>
-            <svg id="bar3" class="AQI_bar"></svg>
-            <svg id="bar4"></svg>
-        </div>
+        <svg id="line2"></svg>
+        <svg id="line5"></svg>
+        <svg id="bar2"></svg>
+        <svg id="bar3" class="AQI_bar"></svg>
+        <svg id="bar4"></svg>
     </div>
+   
 
     <p>
         US Environmental Protection Agency. Air Quality System Data Mart 
@@ -68,16 +71,18 @@
     </p>
 
     <div id="tooltip"></div>
+    <div id="tooltip2"></div>
  
     <!-- D3 bundle -->
     <script src="js/d3.v6.min.js"></script>
     <script src="js/d3-simple-slider.min.js"></script>
-    <script src="js/d3-interpolate-path.min.js"></script>
+    <script src="js/topojson.v3.js"></script>
 
     <!-- Our JS code - INCLUDING the new files-->
     <script src="js/main.js"></script>
     <script src="js/bar.js"></script>
     <script src="js/line.js"></script>  
+    <script src="js/choroplethMap.js"></script>
 
 
 </body>
